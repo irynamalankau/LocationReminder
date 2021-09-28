@@ -30,6 +30,7 @@ class ReminderListFragment : BaseFragment() {
             )
         binding.viewModel = _viewModel
 
+
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(false)
         setTitle(getString(R.string.app_name))
@@ -45,6 +46,7 @@ class ReminderListFragment : BaseFragment() {
         setupRecyclerView()
         binding.addReminderFAB.setOnClickListener {
             navigateToAddReminder()
+
         }
     }
 
