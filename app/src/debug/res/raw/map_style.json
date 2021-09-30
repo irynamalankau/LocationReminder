@@ -124,6 +124,18 @@
   },
   {
     "featureType": "road.highway",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#71ff3d"
+      },
+      {
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
     "elementType": "geometry.stroke",
     "stylers": [
       {
