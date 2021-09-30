@@ -42,4 +42,6 @@
     <string name="error_adding_geofence">Error Happened, Can\'t Add Geofence</string>
     <string name="rationale_title">Location Permission Needed</string>
     <string name="rationale_desc">This app needs the Location permission, please accept to use location functionality</string>
+    <string name="save_location_button">Save Location</string>
+    <string name="toast_select_location">Select a location</string>
 </resources>
