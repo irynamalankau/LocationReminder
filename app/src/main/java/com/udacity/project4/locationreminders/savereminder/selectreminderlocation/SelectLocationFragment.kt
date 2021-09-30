@@ -36,7 +36,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
     private var pointOfInterest: PointOfInterest? = null
 
-
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -57,6 +56,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         binding.saveLocationButton.setOnClickListener {
             onLocationSelected()
         }
+
 
         return binding.root
     }
@@ -141,6 +141,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
                             .snippet(snippet)
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
             )
+
         }
     }
 
@@ -198,12 +199,6 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private fun enableMyLocation() {
         if (isPermissionGranted()) {
-            /* if (ActivityCompat.checkSelfPermission(requireContext(),
-                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(requireContext(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return
-            }*/
             map.isMyLocationEnabled = true
         } else {
             requestPermissions(
