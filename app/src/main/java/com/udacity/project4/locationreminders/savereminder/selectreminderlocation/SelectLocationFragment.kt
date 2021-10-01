@@ -250,39 +250,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 
 
 
-    /* //Check if permissions are granted
-     private fun checkLocationPermission() {
-         if (!foregroundAndBackgroundLocationPermissionApproved()
-         ) {
-             // Check if permission is not granted
-             Log.d(TAG, "Permission for location is not granted")
-             // This condition only becomes true if the user has denied the permission previously
-             if (shouldShowRequestPermissionRationale(
-                     Manifest.permission.ACCESS_FINE_LOCATION
-                 )
-             ) {
-                 showRationaleDialog(
-                     getString(R.string.rationale_title),
-                     getString(R.string.rationale_desc)
-                 )
-             } else {
-                 // No explanation needed, we can request the permission.
-                 requestLocationPermissions()
-             }
-         }
-     }*/
 
-   /* private fun showRationaleDialog(title: String, message: String) {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("Ok") { _, _ ->
-                //requestPermissions(arrayOf(permission), requestCode)
-                Log.d(TAG, "Checking permission after showing rationale")
-                requestLocationPermissions()
-            }
-        builder.create().show()
-    }*/
 
 
 

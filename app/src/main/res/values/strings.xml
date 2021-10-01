@@ -19,4 +19,21 @@
     <string name="save_location_button">Save Location</string>
     <string name="toast_select_location">Select a location</string>
     <string name="dropped_pin">Dropped Pin</string>
+    <string name="location_required_explanation">Location must be enabled to use the app</string>
+
+    <!-- Error strings -->
+    <string name="geofence_not_available">Geofence service is not available now</string>
+    <string name="geofence_too_many_geofences">Your app has registered too many geofences</string>
+    <string name="geofence_too_many_pending_intents">You have provided too many PendingIntents to the addGeofences() call</string>
+    <string name="unknown_geofence_error">Unknown error: the Geofence service is not available now</string>
+    <string name="location_required_error">Location services must be enabled for this game.</string>
+
+    <string name="geofences_not_removed">Geofence is not removed</string>
+    <string name="insufficient_permissions">Insufficient permissions.</string>
+    <string name="geofence_error">There was an error in finding your treasure</string>
+    <string name="geofences_added">Geofence Added Successfully</string>
+    <string name="geofences_not_added">Geofence is not added</string>
+    <string name="rationale_title">Permissions are needed to know your location</string>
+    <string name="rationale_desc">Please provide location permissions to use this app functionality</string>
+    <string name="geofence_entered">Entered Geofence</string>
 </resources>
