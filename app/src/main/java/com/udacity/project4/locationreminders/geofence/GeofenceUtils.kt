@@ -23,7 +23,7 @@ fun errorMessage(context: Context, errorCode: Int): String {
     }
 }
 
-internal object GeofencingConstants{
+internal object GeofencingConstants {
     const val GEOFENCE_RADIUS_IN_METERS = 100f
     const val ACTION_GEOFENCE_EVENT =
             "ACTION_GEOFENCE_EVENT"

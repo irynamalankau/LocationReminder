@@ -40,7 +40,6 @@ import org.mockito.Mockito.verify
 
 @RunWith(AndroidJUnit4::class)
 @ExperimentalCoroutinesApi
-//UI Testing
 @MediumTest
 class ReminderListFragmentTest {
 

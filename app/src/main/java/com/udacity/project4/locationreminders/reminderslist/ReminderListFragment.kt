@@ -21,14 +21,14 @@ class ReminderListFragment : BaseFragment() {
     override val _viewModel: RemindersListViewModel by viewModel()
     private lateinit var binding: FragmentRemindersBinding
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_reminders, container, false
-            )
+                DataBindingUtil.inflate(
+                        inflater,
+                        R.layout.fragment_reminders, container, false
+                )
         binding.viewModel = _viewModel
 
 
@@ -60,9 +60,9 @@ class ReminderListFragment : BaseFragment() {
     private fun navigateToAddReminder() {
         //use the navigationCommand live data to navigate between the fragments
         _viewModel.navigationCommand.postValue(
-            NavigationCommand.To(
-                ReminderListFragmentDirections.toSaveReminder()
-            )
+                NavigationCommand.To(
+                        ReminderListFragmentDirections.toSaveReminder()
+                )
         )
     }
 
@@ -81,11 +81,11 @@ class ReminderListFragment : BaseFragment() {
         when (item.itemId) {
             R.id.logout -> {
                 AuthUI.getInstance()
-                    .signOut(requireContext())
-                    .addOnCompleteListener {
-                        startActivity(Intent(activity, AuthenticationActivity::class.java))
-                        activity?.finish()
-                    }
+                        .signOut(requireContext())
+                        .addOnCompleteListener {
+                            startActivity(Intent(activity, AuthenticationActivity::class.java))
+                            activity?.finish()
+                        }
             }
         }
         return super.onOptionsItemSelected(item)

@@ -47,11 +47,11 @@ class SaveReminderFragment : BaseFragment() {
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_save_reminder, container, false)
+                DataBindingUtil.inflate(inflater, R.layout.fragment_save_reminder, container, false)
 
         setDisplayHomeAsUpEnabled(true)
 
@@ -68,7 +68,7 @@ class SaveReminderFragment : BaseFragment() {
         binding.selectLocation.setOnClickListener {
             //            Navigate to another fragment to get the user location
             _viewModel.navigationCommand.value =
-                NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
+                    NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
         }
 
         binding.saveReminder.setOnClickListener {
@@ -126,7 +126,7 @@ class SaveReminderFragment : BaseFragment() {
         return foregroundLocationApproved && backgroundPermissionApproved
     }
 
-    @TargetApi(29 )
+    @TargetApi(29)
     private fun requestForegroundAndBackgroundLocationPermissions() {
         if (foregroundAndBackgroundLocationPermissionApproved())
             return
@@ -162,8 +162,7 @@ class SaveReminderFragment : BaseFragment() {
                 grantResults[LOCATION_PERMISSION_INDEX] == PackageManager.PERMISSION_DENIED ||
                 (requestCode == REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE &&
                         grantResults[BACKGROUND_LOCATION_PERMISSION_INDEX] ==
-                        PackageManager.PERMISSION_DENIED))
-        {
+                        PackageManager.PERMISSION_DENIED)) {
             // Explain user why app needs this permission
             if (shouldShowRequestPermissionRationale(
                             Manifest.permission.ACCESS_FINE_LOCATION
@@ -184,41 +183,19 @@ class SaveReminderFragment : BaseFragment() {
         }
     }
 
-    /* //Check if permissions are granted
-    private fun checkLocationPermission() {
-        if (!foregroundAndBackgroundLocationPermissionApproved()
-        ) {
-            // Check if permission is not granted
-            Log.d(TAG, "Permission for location is not granted")
-            // This condition only becomes true if the user has denied the permission previously
-            if (shouldShowRequestPermissionRationale(
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            ) {
-                showRationaleDialog(
-                    getString(R.string.rationale_title),
-                    getString(R.string.rationale_desc)
-                )
-            } else {
-                // No explanation needed, we can request the permission.
-                requestLocationPermissions()
-            }
-        }
-    }*/
+    private fun showRationaleDialog(title: String, message: String) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Ok") { _, _ ->
+                    //requestPermissions(arrayOf(permission), requestCode)
+                    Log.d(TAG, "Checking permission after showing rationale")
+                    requestForegroundAndBackgroundLocationPermissions()
+                }
+        builder.create().show()
+    }
 
-     private fun showRationaleDialog(title: String, message: String) {
-         val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
-         builder.setTitle(title)
-             .setMessage(message)
-             .setPositiveButton("Ok") { _, _ ->
-                 //requestPermissions(arrayOf(permission), requestCode)
-                 Log.d(TAG, "Checking permission after showing rationale")
-                 requestForegroundAndBackgroundLocationPermissions()
-             }
-         builder.create().show()
-     }
-
-    private fun checkDeviceLocationSettingsAndStartGeofence(resolve:Boolean = true) {
+    private fun checkDeviceLocationSettingsAndStartGeofence(resolve: Boolean = true) {
         val locationRequest = LocationRequest.create().apply {
             priority = LocationRequest.PRIORITY_LOW_POWER
         }
@@ -227,7 +204,7 @@ class SaveReminderFragment : BaseFragment() {
         val locationSettingsResponseTask =
                 settingsClient.checkLocationSettings(builder.build())
         locationSettingsResponseTask.addOnFailureListener { exception ->
-            if (exception is ResolvableApiException && resolve){
+            if (exception is ResolvableApiException && resolve) {
                 try {
                     exception.startResolutionForResult(requireActivity(),
                             REQUEST_TURN_DEVICE_LOCATION_ON)
@@ -244,15 +221,14 @@ class SaveReminderFragment : BaseFragment() {
             }
         }
         locationSettingsResponseTask.addOnCompleteListener {
-            if ( it.isSuccessful ) {
+            if (it.isSuccessful) {
                 addGeofenceForReminder()
             }
         }
     }
 
 
-
-     //ADD GEOFENCES
+    //ADD GEOFENCES
 
     @SuppressLint("MissingPermission")
     private fun addGeofenceForReminder() {
@@ -297,7 +273,7 @@ class SaveReminderFragment : BaseFragment() {
     }
 
 
-companion object {
+    companion object {
         private const val TAG = "SaveReminderFragment"
         private const val REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE = 33
         private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
