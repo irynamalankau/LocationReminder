@@ -19,6 +19,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.project4.R
+import com.udacity.project4.authentication.AuthenticationActivity.Companion.TAG
 import com.udacity.project4.base.BaseFragment
 import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentSaveReminderBinding
@@ -78,15 +79,9 @@ class SaveReminderFragment : BaseFragment() {
             val latitude = _viewModel.latitude.value
             val longitude = _viewModel.longitude.value
 
-//           use the user entered reminder details to:
-//             1) add a geofencing request
-//             2) save the reminder to the local db
-
             reminderData = ReminderDataItem(title, description, location, latitude, longitude)
 
-            if (_viewModel.validateAndSaveReminder(reminderData)) {
-                checkPermissionsAndStartGeofencing()
-            }
+            checkPermissionsAndStartGeofencing()
         }
     }
 
@@ -139,8 +134,7 @@ class SaveReminderFragment : BaseFragment() {
             else -> REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
         }
         Log.d(TAG, "Request foreground only location permission")
-        ActivityCompat.requestPermissions(
-                requireActivity(),
+        requestPermissions(
                 permissionsArray,
                 resultCode
         )
@@ -206,8 +200,15 @@ class SaveReminderFragment : BaseFragment() {
         locationSettingsResponseTask.addOnFailureListener { exception ->
             if (exception is ResolvableApiException && resolve) {
                 try {
-                    exception.startResolutionForResult(requireActivity(),
-                            REQUEST_TURN_DEVICE_LOCATION_ON)
+                    startIntentSenderForResult(
+                            exception.resolution.intentSender,
+                            REQUEST_TURN_DEVICE_LOCATION_ON,
+                            null,
+                            0,
+                            0,
+                            0,
+                            null
+                    )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     Log.d(TAG, "Error getting location settings resolution: " + sendEx.message)
                 }
@@ -252,26 +253,28 @@ class SaveReminderFragment : BaseFragment() {
                     .addGeofence(geofence)
                     .build()
 
-            geofencingClient.removeGeofences(geofencePendingIntent)?.run {
-                addOnCompleteListener {
-                    geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
-                        addOnSuccessListener {
-                            _viewModel.showSnackBarInt.value = R.string.geofences_added
-                            Log.e("Add Geofence", geofence.requestId)
-                        }
-                        addOnFailureListener {
-                            _viewModel.showSnackBarInt.value = R.string.geofences_not_added
-                            if ((it.message != null)) {
-                                Log.w(TAG, it.message!!)
-                            }
-                        }
+            geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
+                addOnSuccessListener {
+                    _viewModel.showSnackBarInt.value = R.string.geofences_added
+                    _viewModel.validateAndSaveReminder(reminderData)
+                    Log.e("Add Geofence", geofence.requestId)
+                }
+                addOnFailureListener {
+                    _viewModel.showSnackBarInt.value = R.string.geofences_not_added
+                    if ((it.message != null)) {
+                        Log.w(TAG, it.message!!)
                     }
                 }
-
             }
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_TURN_DEVICE_LOCATION_ON) {
+            checkDeviceLocationSettingsAndStartGeofence(false)
+        }
+    }
 
     companion object {
         private const val TAG = "SaveReminderFragment"
